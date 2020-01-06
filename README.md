@@ -1,8 +1,5 @@
 # umi-custom-generate
-1. install
-
+# 安装运行:
 npm insatll
-
-2. run
 
 npm run dev

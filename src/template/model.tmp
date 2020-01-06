@@ -1,0 +1,38 @@
+
+export default {
+  namespace: '$${namespace}',
+
+  state: {
+    data: [],
+    pagination: {},
+
+  },
+
+  effects: {
+    *getTableData({ payload = {} }, { put, call }) {
+      //const { data, success } = (yield call(handleTableRequest, payload)) || { data: {} }
+      const { data, success } = { data: {}, success: true }
+      success && (yield put({
+        type: 'setTableData',
+        payload: data
+      }))
+    },
+
+  },
+
+  reducers: {
+    setTableData(state, action) {
+      const pagination = {
+        ...state.pagination,
+        total: action.payload.total,
+        page: action.payload.page,
+        size: action.payload.size
+      }
+      return {
+        ...state,
+        data: action.payload.list || [],
+        pagination
+      }
+    }
+  },
+};

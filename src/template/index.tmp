@@ -1,0 +1,103 @@
+import React, { Component, createRef } from 'react'
+import { Button } from 'antd'
+import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import BaseTable from '@/components/BaseTable'
+import { connect } from 'dva'
+import FilterForm from '@/components/BaseForm'
+import { SubHeader } from "@/components";
+import style from '@/pages/index.less'
+
+const INIT_PAGE = { page: 1, size: 20 };
+@connect(({ $${namespace}, loading }) => ({
+  $${namespace},
+  $${namespace}Loading: loading.effects['$${namespace}/getTableData']
+}))
+class $${className} extends Component {
+  constructor() {
+    super()
+    this.tableRef = createRef()
+
+    this.columns = $${columnList}
+
+    this.searchCondition = {};
+  }
+
+  //提交
+  filterSubmit = values => {
+    this.searchCondition = values;
+    this.searchData();
+  }
+
+  onPageChange = (current, pageSize) => {
+    this.searchData({
+      page: current,
+      size: pageSize
+    });
+  }
+
+  componentDidMount() {
+    this.searchData()
+  }
+
+  searchData(pageInfo = INIT_PAGE, searchInfo = this.searchCondition) {
+    this.props.dispatch({
+      type: '$${namespace}/getTableData',
+      payload: {
+        ...pageInfo,
+        ...searchInfo
+      }
+    })
+  }
+
+  componentWillUnmount() {
+
+  }
+
+  render() {
+
+    const {
+      $${namespace}: {
+        data,
+        pagination
+      },
+      $${namespace}Loading,
+    } = this.props;
+
+    let formList = $${formList}
+
+    const initTable = {
+      loading: $${namespace}Loading,
+      dataSource: data,
+      total: pagination.total,
+      current: pagination.page,
+      rowKey: record => record.$${rowKey},
+      columns: this.columns,
+      onShowSizeChange: this.onPageChange,
+      pageChange: this.onPageChange
+    }
+
+    return (
+      <PageHeaderWrapper>
+        <SubHeader showBack={$${showBack}} title="$${pageTitle}" />
+
+          <div className={style.mainFunctionBtn}>
+            <div className={style.checkoutBtnLfet}>
+              <Button type="primary" ghost>操作</Button>
+            </div>
+            <div>
+              <Button>右侧操作</Button>
+            </div>
+          </div>
+
+          <FilterForm
+            formList={formList}
+            filterSubmit={this.filterSubmit}
+          />
+
+          <BaseTable initTable={initTable} ref={this.tableRef} />
+      </PageHeaderWrapper>
+    )
+  }
+}
+
+export default $${className}

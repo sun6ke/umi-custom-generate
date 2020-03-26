@@ -241,13 +241,21 @@ function generateCode(ast) {
   });
 }
 
-
+/**
+ * 判断是否为String类型
+ * @param value
+ * @returns {boolean}
+ */
 export const isString = value => {
   return Object.prototype.toString.call(value) === '[object String]';
 };
 
 
-// 驼峰转-
+/**
+ * 驼峰转-
+ * @param name
+ * @returns {string}
+ */
 export const toLine = (name) => {
   return name.replace(/([A-Z])/g,"-$1").toLowerCase();
 }
